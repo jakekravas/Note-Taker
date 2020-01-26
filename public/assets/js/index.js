@@ -1,9 +1,9 @@
+console.log("test");
 let $noteTitle = $(".note-title");
 let $noteText = $(".note-textarea");
 let $saveNoteBtn = $(".save-note");
 let $newNoteBtn = $(".new-note");
 let $noteList = $(".list-container .list-group");
-
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
 
@@ -120,7 +120,9 @@ let renderNoteList = function(notes) {
 
     $li.append($span, $delBtn);
     noteListItems.push($li);
-  }
+  }app.get("/notes", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/notes.html"));
+});
 
   $noteList.append(noteListItems);
 };
