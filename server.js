@@ -5,8 +5,8 @@ const path = require("path");
 const app = express();
 let PORT = process.env.PORT || 1006;
 
-let dbArr = [];
-idCount = 0;
+let dbj = require("./db/db.json");
+let idCount = dbj.length;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -24,13 +24,30 @@ app.post("/api/notes", (req, res) => {
     let note = req.body;
     note.id = idCount;
     console.log(note);
-    dbArr.push(note);
-    fs.writeFile("dbb.json", JSON.stringify(dbArr), (err) => {
+    dbj.push(note);
+    fs.writeFile(path.join(__dirname, "/db/db.json"), JSON.stringify(dbj), (err) => {
         if (err) throw err;
         console.log("File saved");
     })
     idCount++;
 })
+
+app.delete("/api/notes/:id", (req, res) => {
+    let searchedId = parseInt(req.params.id);
+    for (let i = 0; i < dbj.length; i++){
+        if (searchedId === dbj[i].id){
+            console.log("Before\n");
+            console.log(dbj);
+            dbj.splice(i, 1);
+            console.log("After\n");
+            console.log(dbj);
+            fs.writeFile(path.join(__dirname, "/db/db.json"), JSON.stringify(dbj), (err) => {
+                if (err) throw err;
+                console.log("File saved");
+            });
+        }
+    };
+});
 
 app.get("/notes", (req, res) => {
     res.sendFile(path.join(__dirname, "/public/notes.html"));
