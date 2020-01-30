@@ -1,4 +1,3 @@
-console.log("test");
 let $noteTitle = $(".note-title");
 let $noteText = $(".note-textarea");
 let $saveNoteBtn = $(".save-note");
@@ -53,7 +52,7 @@ let renderActiveNote = function() {
 let handleNoteSave = function() {
   let newNote = {
     title: $noteTitle.val(),
-    text: $noteText.val()
+    text: $noteText.val(),
   };
 
   saveNote(newNote).then(function(data) {
@@ -120,9 +119,7 @@ let renderNoteList = function(notes) {
 
     $li.append($span, $delBtn);
     noteListItems.push($li);
-  }app.get("/notes", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/notes.html"));
-});
+  }
 
   $noteList.append(noteListItems);
 };
